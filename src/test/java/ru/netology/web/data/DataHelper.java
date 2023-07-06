@@ -1,7 +1,7 @@
 package ru.netology.web.data;
 
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import lombok.Value;
-import org.jetbrains.annotations.NotNull;
 import ru.netology.web.page.TransferPage;
 
 import static com.codeborne.selenide.Condition.text;
