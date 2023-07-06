@@ -7,42 +7,32 @@ import web.data.DataHelper;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 
-public class TransferPage {
-    private SelenideElement heading = $("#root > div > h1");
-    private SelenideElement amount = $("[data-test-id=amount] input");
-    private SelenideElement from = $("[data-test-id=from] input");
-    private SelenideElement transferButton = $("#root > div > form > button.button.button_view_extra.button_size_s.button_theme_alfa-on-white");
-    private SelenideElement cancelButton = $("#root > div > form > button:nth-child(3)");
+public class TransactionPage {
 
-    public TransferPage() {
-        heading.shouldBe(visible);
+    private SelenideElement transactionButton = $("[data-test-id=action-transfer]");
+    private SelenideElement amountInput = $("[data-test-id=amount] input");
+    private SelenideElement fromInput = $("[data-test-id=from] input");
+    private SelenideElement transactionHead =$(byText("Пополнение карты"));
+    private SelenideElement errorMessage = $("[data-test-id=error-message]");
+
+    public TransactionPage() {
+        transactionHead.shouldBe(visible);
     }
 
-    public void addMoneyToCard1(DataHelper.TransferInfo data) {
-        amount.setValue(data.getAmount());
-        from.setValue(data.getNumber2());
-        transferButton.click();
+    public DashboardPage makeValidTransaction(String amountToTransaction, DataHelper.CardInfo cardInfo) {
+        makeTransaction(amountToTransaction, cardInfo);
+        return new DashboardPage();
     }
 
-    public void addMoneyToCard2(DataHelper.TransferInfo data) {
-        amount.setValue(data.getAmount());
-        from.setValue(data.getNumber1());
-        transferButton.click();
+    public void makeTransaction(String amountToTransaction, DataHelper.CardInfo cardInfo) {
+        amountInput.setValue(amountToTransaction);
+        fromInput.setValue(cardInfo.getCardNumber());
+        transactionButton.click();
     }
 
-    public void cleanUp() {
-        amount.doubleClick();
-        amount.sendKeys(Keys.DELETE);
-        amount.doubleClick();
-        amount.sendKeys(Keys.DELETE);
-        from.doubleClick();
-        from.sendKeys(Keys.DELETE);
-        from.doubleClick();
-        from.sendKeys(Keys.DELETE);
-        from.doubleClick();
-        from.sendKeys(Keys.DELETE);
-        from.doubleClick();
-        from.sendKeys(Keys.DELETE);
-        cancelButton.click();
+    public void findErrorMessage(String expectedText) {
+        errorMessage.shouldHave(exactText(expectedText), Duration.ofSeconds(15)).shouldBe(visible);
     }
+
+
 }
