@@ -10,6 +10,11 @@ import static org.testng.AssertJUnit.assertEquals;
 import static ru.netology.testBank.data.DataHelper.*;
 
 class MoneyTransferTest {
+ @BeforeEach
+  void setup() {
+    Configuration.headless = true;
+    Configuration.holdBrowserOpen = true;
+    
     @Test
     void shouldTransferFromFirstToSecond() {
         var loginPage = open("http://localhost:9999", LoginPage.class);
