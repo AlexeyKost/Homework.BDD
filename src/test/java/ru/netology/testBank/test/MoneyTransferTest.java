@@ -1,16 +1,22 @@
 package ru.netology.testBank.test;
 
+import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.netology.testBank.data.DataHelper;
 import ru.netology.testBank.page.LoginPage;
-
 
 import static com.codeborne.selenide.Selenide.open;
 import static org.testng.AssertJUnit.assertEquals;
 import static ru.netology.testBank.data.DataHelper.*;
 
 class MoneyTransferTest {
-  
+    @BeforeEach
+    void setup() {
+        Configuration.headless = true;
+        Configuration.holdBrowserOpen = true;
+    }
+
     @Test
     void shouldTransferFromFirstToSecond() {
         var loginPage = open("http://localhost:9999", LoginPage.class);
